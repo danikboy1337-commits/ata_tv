@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
 }
 
-val appVersionName = "1.0.0"
+val appVersionName = "1.0.1"
 
 android {
     namespace = "kz.atatv"
@@ -14,7 +14,7 @@ android {
         // 34, а не 35: на Android 15 при targetSdk 35 принудительно включается edge-to-edge,
         // а приставкам это ничего не даёт.
         targetSdk = 34
-        versionCode = 1
+        versionCode = 2
         versionName = appVersionName
     }
 

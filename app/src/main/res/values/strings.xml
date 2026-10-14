@@ -37,7 +37,13 @@
     <string name="status_a11y_off">✗ Автонажатие выключено — включите ATA TV в спецвозможностях</string>
     <string name="status_overlay_on">✓ Показ поверх окон разрешён</string>
     <string name="status_overlay_off">– Показ поверх окон не разрешён (нужен, только если ATA TV не главный экран)</string>
+    <string name="status_a11y_running">✓ Служба автонажатия сейчас работает</string>
+    <string name="status_a11y_not_running">✗ Служба автонажатия сейчас НЕ работает</string>
     <string name="status_version">Версия ATA TV: %1$s</string>
+    <string name="status_device">Приставка: %1$s %2$s, Android %3$s (API %4$d)</string>
+    <string name="journal_title">Журнал (для диагностики)</string>
+    <string name="journal_empty">пока пусто</string>
+    <string name="menu_clear_journal">Очистить журнал</string>
     <string name="status_none">не задан</string>
 
     <string name="dialog_channel_id">ID канала FreeZona</string>

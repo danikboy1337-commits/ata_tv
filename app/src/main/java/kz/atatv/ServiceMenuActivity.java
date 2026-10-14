@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class ServiceMenuActivity extends Activity {
 
     private Prefs prefs;
     private TextView status;
+    private TextView journal;
     private Button modeButton;
     private Button channelButton;
     private Button labelButton;
@@ -91,6 +93,22 @@ public class ServiceMenuActivity extends Activity {
         addButton(column, getString(R.string.menu_android_settings))
                 .setOnClickListener(v -> openSettings(new Intent(Settings.ACTION_SETTINGS)));
 
+        TextView journalHeader = new TextView(this);
+        journalHeader.setText(R.string.journal_title);
+        journalHeader.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+        journalHeader.setPadding(0, dp(24), 0, dp(8));
+        column.addView(journalHeader);
+
+        journal = new TextView(this);
+        journal.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        journal.setTypeface(Typeface.MONOSPACE);
+        column.addView(journal);
+
+        addButton(column, getString(R.string.menu_clear_journal)).setOnClickListener(v -> {
+            DiagLog.clear(this);
+            journal.setText(R.string.journal_empty);
+        });
+
         ScrollView scroll = new ScrollView(this);
         scroll.addView(column);
         setContentView(scroll);
@@ -118,10 +136,15 @@ public class ServiceMenuActivity extends Activity {
         text.append(TargetApp.isAccessibilityEnabled(this)
                 ? getString(R.string.status_a11y_on)
                 : getString(R.string.status_a11y_off)).append('\n');
+        text.append(TvAccessibilityService.isRunning()
+                ? getString(R.string.status_a11y_running)
+                : getString(R.string.status_a11y_not_running)).append('\n');
         text.append(TargetApp.canDrawOverlays(this)
                 ? getString(R.string.status_overlay_on)
                 : getString(R.string.status_overlay_off)).append('\n');
-        text.append(getString(R.string.status_version, ownVersion()));
+        text.append(getString(R.string.status_version, ownVersion())).append('\n');
+        text.append(getString(R.string.status_device, Build.MANUFACTURER, Build.MODEL,
+                Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
         status.setText(text);
 
         modeButton.setText(getString(R.string.menu_mode, getString(modeLabel(prefs.mode()))));
@@ -130,6 +153,8 @@ public class ServiceMenuActivity extends Activity {
                 channel.isEmpty() ? getString(R.string.status_none) : channel));
         labelButton.setText(getString(R.string.menu_tab_label, prefs.tabLabel()));
         packageButton.setText(getString(R.string.menu_package, pkg));
+        String log = DiagLog.read(this);
+        journal.setText(log.isEmpty() ? getString(R.string.journal_empty) : log);
     }
 
     private static int modeLabel(LaunchMode mode) {

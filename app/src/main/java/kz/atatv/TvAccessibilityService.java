@@ -3,6 +3,7 @@ package kz.atatv;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.accessibilityservice.GestureDescription;
+import android.content.Intent;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.os.Build;
@@ -32,6 +33,14 @@ public class TvAccessibilityService extends AccessibilityService {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable scanRunnable = this::scan;
+    /** Идёт ли сейчас поиск вкладки — чтобы один раз записать в журнал, что время вышло. */
+    private boolean searching;
+    private CharSequence lastSeenPackage;
+
+    /** Подключена ли служба прямо сейчас (а не только включена в настройках). */
+    static boolean isRunning() {
+        return instance != null;
+    }
 
     /** Вызывается из LauncherActivity сразу после взведения. */
     static void onArmed() {
@@ -54,6 +63,7 @@ public class TvAccessibilityService extends AccessibilityService {
     protected void onServiceConnected() {
         super.onServiceConnected();
         instance = this;
+        DiagLog.add(this, "служба подключена");
         restrictToTargetPackage();
         if (AutoClickArm.SHARED.isArmed(SystemClock.elapsedRealtime())) {
             scheduleScan(POLL_INTERVAL_MS);
@@ -73,7 +83,14 @@ public class TvAccessibilityService extends AccessibilityService {
     }
 
     @Override
+    public boolean onUnbind(Intent intent) {
+        DiagLog.add(this, "служба отключена системой");
+        return super.onUnbind(intent);
+    }
+
+    @Override
     public void onDestroy() {
+        DiagLog.add(this, "служба остановлена");
         instance = null;
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
@@ -97,13 +114,22 @@ public class TvAccessibilityService extends AccessibilityService {
     private void scan() {
         AutoClickArm arm = AutoClickArm.SHARED;
         if (!arm.isArmed(SystemClock.elapsedRealtime())) {
+            if (searching) {
+                searching = false;
+                DiagLog.add(this, "«" + arm.label() + "» не найдена за 20 с; активное окно: "
+                        + lastSeenPackage);
+            }
             return;
         }
+        searching = true;
         AccessibilityNodeInfo root = getRootInActiveWindow();
+        lastSeenPackage = root == null ? "нет доступа к окну" : root.getPackageName();
         if (root != null && root.getPackageName() != null
                 && arm.packageName().contentEquals(root.getPackageName())
                 && clickFirstMatch(root, new LabelMatcher(arm.label()))) {
+            searching = false;
             arm.disarm();
+            DiagLog.add(this, "нажата вкладка «" + arm.label() + "»");
             return;
         }
         // Экран ещё грузится — пробуем снова, пока не истечёт окно.

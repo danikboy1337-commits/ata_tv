@@ -36,6 +36,7 @@
         android:banner="@drawable/banner"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".AtaApp"
         android:supportsRtl="true"
         android:theme="@style/Theme.AtaTv"
         tools:ignore="DataExtractionRules">

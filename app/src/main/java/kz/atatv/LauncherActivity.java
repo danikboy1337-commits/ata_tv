@@ -124,15 +124,19 @@ public class LauncherActivity extends Activity {
         String pkg = prefs.targetPackage();
         Intent intent = TargetApp.buildLaunchIntent(this, prefs);
         if (intent == null) {
+            DiagLog.add(this, pkg + " не установлена");
             showProblem(getString(R.string.problem_not_installed, pkg));
             return;
         }
         long now = SystemClock.elapsedRealtime();
         if (!THROTTLE.tryAcquire(now)) {
             stoppedByThrottle = true;
+            DiagLog.add(this, "остановка: слишком частые перезапуски " + pkg);
             showProblem(getString(R.string.problem_too_many_launches));
             return;
         }
+        DiagLog.add(this, "запуск " + pkg + ", режим " + prefs.mode().key
+                + (TvAccessibilityService.isRunning() ? "" : " (служба автонажатия не запущена)"));
         if (prefs.mode() == LaunchMode.TV_CHANNELS) {
             AutoClickArm.SHARED.arm(pkg, prefs.tabLabel(), now, AUTO_CLICK_WINDOW_MS);
             TvAccessibilityService.onArmed();
@@ -143,6 +147,7 @@ public class LauncherActivity extends Activity {
             startActivity(intent);
         } catch (ActivityNotFoundException | SecurityException e) {
             AutoClickArm.SHARED.disarm();
+            DiagLog.add(this, "не удалось открыть " + pkg + ": " + e);
             showProblem(getString(R.string.problem_cannot_start, pkg));
         }
     }
