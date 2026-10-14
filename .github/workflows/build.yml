@@ -1,0 +1,28 @@
+name: build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      # Android SDK уже установлен в образе ubuntu-latest (ANDROID_HOME).
+      - name: Tests, lint, release APK
+        run: ./gradlew --no-daemon :app:test :app:lintRelease :app:exportReleaseApk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ata-tv-apk
+          path: dist/*.apk
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reports
+          path: app/build/reports/

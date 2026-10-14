@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- packageNames задаётся в коде (TvAccessibilityService.restrictToTargetPackage),
+     чтобы служба получала события только от выбранного приложения.
+     canPerformGestures нужен только запасному «тапу» на Android 7+; ниже он игнорируется. -->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:accessibilityEventTypes="typeWindowStateChanged|typeWindowContentChanged"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:accessibilityFlags="flagIncludeNotImportantViews|flagReportViewIds"
+    android:canPerformGestures="true"
+    android:canRetrieveWindowContent="true"
+    android:description="@string/a11y_description"
+    android:notificationTimeout="200"
+    tools:ignore="UnusedAttribute" />

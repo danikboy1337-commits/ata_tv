@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ATA TV</string>
+
+    <!-- Заставка и ошибки главного экрана -->
+    <string name="splash_title">Включаю телевидение…</string>
+    <string name="splash_hint">↑ ↑ ↑ — служебное меню</string>
+    <string name="problem_title">Телевидение не открылось</string>
+    <string name="problem_not_installed">Приложение %1$s не установлено. Позвоните внуку.</string>
+    <string name="problem_cannot_start">Не получилось открыть %1$s. Нажмите «ОК», чтобы попробовать ещё раз.</string>
+    <string name="problem_too_many_launches">Нажмите «ОК», чтобы снова открыть телевидение.</string>
+    <string name="button_retry">ОК — открыть телевидение</string>
+    <string name="button_service_menu">Служебное меню</string>
+
+    <!-- Служебное меню -->
+    <string name="service_menu_title">ATA TV — служебное меню</string>
+    <string name="service_menu_launcher_label">ATA TV настройки</string>
+    <string name="menu_start_tv">▶ Запустить телевидение сейчас</string>
+    <string name="menu_mode">Режим запуска: %1$s</string>
+    <string name="mode_tv_channels">FreeZona → вкладка «ТВ-каналы»</string>
+    <string name="mode_open_app">просто открыть FreeZona</string>
+    <string name="mode_channel">сразу включить канал по ID</string>
+    <string name="menu_channel_id">ID канала (для режима «канал по ID»): %1$s</string>
+    <string name="menu_tab_label">Текст вкладки для автонажатия: %1$s</string>
+    <string name="menu_package">Пакет приложения: %1$s</string>
+    <string name="menu_make_default_home">Сделать ATA TV главным экраном</string>
+    <string name="menu_accessibility">Спецвозможности (нужны для автонажатия вкладки)</string>
+    <string name="menu_overlay">Разрешить показ поверх других окон</string>
+    <string name="menu_all_apps">Все приложения</string>
+    <string name="menu_android_settings">Настройки Android</string>
+
+    <string name="status_target_installed">✓ %1$s установлена, версия %2$s</string>
+    <string name="status_target_missing">✗ %1$s НЕ установлена</string>
+    <string name="status_home_ok">✓ ATA TV — главный экран по умолчанию</string>
+    <string name="status_home_other">✗ Главный экран по умолчанию: %1$s</string>
+    <string name="status_a11y_on">✓ Автонажатие (спецвозможности) включено</string>
+    <string name="status_a11y_off">✗ Автонажатие выключено — включите ATA TV в спецвозможностях</string>
+    <string name="status_overlay_on">✓ Показ поверх окон разрешён</string>
+    <string name="status_overlay_off">– Показ поверх окон не разрешён (нужен, только если ATA TV не главный экран)</string>
+    <string name="status_version">Версия ATA TV: %1$s</string>
+    <string name="status_none">не задан</string>
+
+    <string name="dialog_channel_id">ID канала FreeZona</string>
+    <string name="dialog_tab_label">Текст вкладки (как в FreeZona)</string>
+    <string name="dialog_package">Пакет приложения</string>
+    <string name="dialog_save">Сохранить</string>
+    <string name="dialog_cancel">Отмена</string>
+
+    <string name="toast_clear_defaults">Нажмите «Очистить настройки по умолчанию», затем кнопку «Домой» и выберите ATA TV → «Всегда»</string>
+    <string name="toast_choose_home">Выберите ATA TV и нажмите «Всегда»</string>
+    <string name="toast_no_settings_screen">На этой приставке такого экрана нет</string>
+    <string name="toast_cannot_open_app">Не получилось открыть приложение</string>
+    <string name="apps_home_suffix">" (главный экран)"</string>
+
+    <!-- Служба спецвозможностей -->
+    <string name="a11y_label">ATA TV: автонажатие «ТВ-каналы»</string>
+    <string name="a11y_description">После включения приставки ATA TV открывает FreeZona и один раз нажимает вкладку «ТВ-каналы». Служба работает только 20 секунд после запуска и только в FreeZona, ничего не читает и не отправляет.</string>
+</resources>
