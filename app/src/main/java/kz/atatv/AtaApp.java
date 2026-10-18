@@ -9,6 +9,9 @@ public class AtaApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // Повторная строка после включения тумблера = процесс ATA TV убивали (например, force-stop).
+        DiagLog.add(this, "процесс ATA TV запущен");
+        A11yDiagnostics.startWatching(this);
         Thread.UncaughtExceptionHandler previous = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler((thread, error) -> {
             try {

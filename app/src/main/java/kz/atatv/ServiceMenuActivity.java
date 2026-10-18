@@ -139,6 +139,7 @@ public class ServiceMenuActivity extends Activity {
         text.append(TvAccessibilityService.isRunning()
                 ? getString(R.string.status_a11y_running)
                 : getString(R.string.status_a11y_not_running)).append('\n');
+        text.append(A11yDiagnostics.describe(this)).append('\n');
         text.append(TargetApp.canDrawOverlays(this)
                 ? getString(R.string.status_overlay_on)
                 : getString(R.string.status_overlay_off)).append('\n');

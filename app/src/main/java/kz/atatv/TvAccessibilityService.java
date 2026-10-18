@@ -60,6 +60,12 @@ public class TvAccessibilityService extends AccessibilityService {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        DiagLog.add(this, "служба создана системой");
+    }
+
+    @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
         instance = this;
